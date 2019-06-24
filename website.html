@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Fake News Classifier</title>
+  <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+
+      <link rel="stylesheet" href="./style.css">
+      <script>
+
+          function objectifyForm(formArray) {//serialize data function
+            var returnArray = {};
+            for (var i = 0; i < formArray.length; i++){
+                returnArray[formArray[i]['name']] = formArray[i]['value'];
+            }
+            return returnArray;
+            }
+
+          window.onload = function(){
+              document.getElementById('button').onclick = function fun(){
+
+                  var out = objectifyForm(myForm)
+                  var url = "https://frozen-ocean-15723.herokuapp.com/";
+
+                  fetch(url, {
+                      method: 'POST', // or 'PUT'
+                      body: JSON.stringify(out), // data can be `string` or {object}!
+                      headers:{
+                          'Content-Type': 'application/json'
+                      }
+                  }).then(res => res.json())
+                  .then(response => window.alert(JSON.stringify(response)))
+                  .catch(error => console.log('Error:', error))
+
+
+
+              }
+          }
+
+      </script>
+
+</head>
+
+<body>
+<h1>Fake News Classifier</h1>
+ <form class="login" id="myForm">
+  <input type="text" placeholder="Title" name="Title">
+  <input type="text" placeholder="Content" name="Content">
+</form>
+<button id="button" onclick="fun();">Classify</button>
+</body>
+
+</html>
